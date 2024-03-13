@@ -26,5 +26,10 @@ Route::get('/prueba', function () {
 
 
 
+Route::post('/crear-usuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuario::crearUsuario($data); // Llama a la función del modelo Usuario
 
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
 
