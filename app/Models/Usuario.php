@@ -104,13 +104,15 @@ class Usuario extends Model
 			array_push($respuesta, "correo");
 		} else {
 
-			if(password_verify($data['contrasena'], $usuario->contrasena) == false) array_push($respuesta, "contrasena");
-			
+			if (password_verify($data['contrasena'], $usuario->contrasena) == false)
+				array_push($respuesta, "contrasena");
+
 		}
 
-
-
-	return $respuesta;
+		if (count($respuesta) == 0) {
+			array_push($respuesta, $usuario->dni);
+		}
+		return $respuesta;
 
 
 
