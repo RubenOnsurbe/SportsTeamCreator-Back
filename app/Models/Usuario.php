@@ -56,9 +56,8 @@ class Usuario extends Model
 	public static function crearUsuario($data)
 	{
 		$respuesta = array();
-		try {
-			// Intentar insertar el usuario
-			self::create($data);
+		try {	
+			self::insert($data);
 		} catch (QueryException $e) {
 			//Si no se crea usuario...
 
@@ -73,7 +72,7 @@ class Usuario extends Model
 					array_push($respuesta, "dni");
 
 				//Si el correo se repite
-				if (strpos($e->getMessage(), 'correo_UNIQUE') == true) {
+				if (strpos($e->getMessage(), 'correo') == true) {
 					array_push($respuesta, "correo");
 				}
 
