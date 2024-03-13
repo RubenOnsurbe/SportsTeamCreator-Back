@@ -56,7 +56,9 @@ class Usuario extends Model
 	public static function crearUsuario($data)
 	{
 		$respuesta = array();
-		try {	
+
+		$data['contrasena'] = password_hash($data['contrasena'], PASSWORD_DEFAULT);
+		try {
 			self::insert($data);
 		} catch (QueryException $e) {
 			//Si no se crea usuario...
@@ -82,6 +84,37 @@ class Usuario extends Model
 		}
 
 		return $respuesta;
+
+	}
+
+
+
+
+
+	public static function iniciarSesion($data)
+	{
+
+		$respuesta = array();
+
+		//Usuario con el correo que proporciona el usuario
+
+		$usuario = Usuario::where('correo', $data['correo'])->first();
+
+		if ($usuario == null) {
+			array_push($respuesta, "correo");
+		} else {
+
+			if(password_verify($data['contrasena'], $usuario->contrasena) == false) array_push($respuesta, "contrasena");
+			
+		}
+
+
+
+	return $respuesta;
+
+
+
+
 
 	}
 
