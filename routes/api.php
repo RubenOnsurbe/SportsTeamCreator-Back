@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
+use App\Http\Controllers\PHPMailerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +41,16 @@ Route::post('/iniciarSesion', function (Request $request) {
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 
+
+
+
+
+//Correo de cambio contraseña
+
+
+Route::post('/cambiarContrasena', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = PHPMailerController::store($data); // Llama a la función del modelo Usuario
+
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
