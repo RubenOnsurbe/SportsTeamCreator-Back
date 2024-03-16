@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id_club
  * @property string $nombre
+ * @property string $usuarioClub
  * @property string $codigoAcceso
  * 
  * @property Collection|Usuario[] $usuarios
@@ -28,6 +29,7 @@ class Club extends Model
 
 	protected $fillable = [
 		'nombre',
+		'usuarioClub',
 		'codigoAcceso'
 	];
 
