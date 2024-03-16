@@ -10,6 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use App\Models\Usuarioclub;
+use App\Models\Club;
+
 
 /**
  * Class Usuario
@@ -56,15 +59,11 @@ class Usuario extends Model
 	public static function crearUsuario($data)
 	{
 		$respuesta = array();
-
 		$data['contrasena'] = password_hash($data['contrasena'], PASSWORD_DEFAULT);
 		try {
 			self::insert($data);
 		} catch (QueryException $e) {
 			//Si no se crea usuario...
-
-
-
 			if ($e->getCode() === '23000') {
 				//integrity constraint violation 
 
@@ -77,45 +76,38 @@ class Usuario extends Model
 				if (strpos($e->getMessage(), 'correo') == true) {
 					array_push($respuesta, "correo");
 				}
-
-
 			}
-
 		}
-
 		return $respuesta;
-
 	}
-
-
-
-
 
 	public static function iniciarSesion($data)
 	{
-
 		$respuesta = array();
-
 		//Usuario con el correo que proporciona el usuario
-
 		$usuario = Usuario::where('correo', $data['correo'])->first();
-
 		if ($usuario == null) {
 			array_push($respuesta, "correo");
 		} else {
 
 			if (password_verify($data['contrasena'], $usuario->contrasena) == false)
 				array_push($respuesta, "contrasena");
-
 		}
-
 		if (count($respuesta) == 0) {
 			array_push($respuesta, $usuario->dni);
 		}
 		return $respuesta;
+	}
 
+	public static function obtenerClubes($data)
+	{
+		$dni = $data;
 
+		$clubs = Usuarioclub::where('dni', $dni)->get();
 
+		$clubsUsuario = Club::whereIn('id_club', $clubs->pluck('id_club'))->get();
+
+		return $clubsUsuario;
 
 
 	}
