@@ -120,6 +120,10 @@ class Usuario extends Model
 
 		try {
 			$club->save();
+			$usuarioClub = new Usuarioclub();
+			$usuarioClub->dni = $data['DNI'];
+			$usuarioClub->id_club = $club->id_club;
+			$usuarioClub->save();
 		} catch (QueryException $e) {
 			if ($e->getCode() === '23000') {
 				array_push($respuesta, "Ya existe un club con ese nombre");
@@ -156,6 +160,14 @@ class Usuario extends Model
 
 		}
 		return $respuesta;
+	}
+
+	public static function dejarClub($data)
+	{
+		$club = Usuarioclub::where('dni', $data['DNI'])
+			->where('id_club', $data['id_club'])
+			->delete();
+		return true;
 	}
 
 
