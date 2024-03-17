@@ -38,10 +38,11 @@ Route::post('/iniciarSesion', function (Request $request) {
 
 Route::post('/cambiarContrasena', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = PHPMailerController::store($data); // Llama a la función del modelo Usuario
+    $respuesta = PHPMailerController::cambiarContrasena($data); // Llama a la función del modelo Usuario
 
-    return response()->json($respuesta); // Devuelve la respuesta como JSON
+    return $respuesta; // Devuelve la respuesta como JSON
 });
+
 
 
 Route::post('/clubesUsuario', function (Request $request) {
@@ -50,6 +51,9 @@ Route::post('/clubesUsuario', function (Request $request) {
 
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+
+
 
 Route::post('/crearClub', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud

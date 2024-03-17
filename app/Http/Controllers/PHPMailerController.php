@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Illuminate\Support\Str;
-use app\Models\Usuario;
+use App\Models\Usuario;
+use App\Models\Token;
+use Illuminate\Database\QueryException;
+
 
 class PHPMailerController extends Controller
 {
@@ -18,12 +21,39 @@ class PHPMailerController extends Controller
     public static function store($request)
 {
     
+    /*En la bd, token tiene un evento que hara que a los 30 dias se elimine por si
+     un usuario mete su correo para cambiar la contraseña pero luego no la cambia*/
     $token = Str::random(60); 
+    $correoDestinatario = $request['correo'];
 
 
+
+
+    $usuario = Usuario::where('correo', $correoDestinatario)->first();
+
+
+    if($usuario != null){
+
+        try {
+            $nuevoToken = new Token();
+            $nuevoToken->correo = $correoDestinatario;
+            $nuevoToken->token = $token;
+            $nuevoToken->save();
+        } catch (QueryException $e) {
+            // Manejar la excepción de violación de clave foránea
+            return response()->json(['error' => 'Error al crear token ' . $e->getMessage()], 500);
+        }
+       
+    
     try {
         // Se obtiene la dirección de correo electrónico del usuario desde la solicitud
-        $correoDestinatario = $request['correo'];
+       
+
+        // Guardar el nuevo token en la base de datos
+        $nuevoToken->save();
+
+
+
 
         // Crear una instancia de PHPMailer
         $mail = new PHPMailer(true);
@@ -52,8 +82,8 @@ class PHPMailerController extends Controller
                         <body>
                             <h1>Recuperación de contraseña</h1>
                             <p>Por favor, introduce tu nueva contraseña a continuación:</p>
-                            <form action='http://127.0.0.1:8000/api/cambiarContrasena1' method='post'>
-                                <input type='password' name='password' placeholder='Nueva contraseña' required>
+                            <form action='http://127.0.0.1:8000/api/cambiarContrasena' method='post'>
+                                <input type='password' name='contrasena' placeholder='Nueva contraseña' required>
                                 <input type='hidden' name='token' value='".$token."'>
                                 <input type='hidden' name='correo' value='".$correoDestinatario."'>
                                 <input type='submit' value='Guardar contraseña'>
@@ -69,13 +99,41 @@ class PHPMailerController extends Controller
     } catch (Exception $e) {
         return response()->json(['error' => 'No se pudo enviar el correo electrónico'], 500);
     }
+}else return "No existe el correo";
 }
 
 public static function cambiarContrasena($data){
 
+    $correoEnviado = $data['correo'];
+    $tokenEnviado = $data['token'];
+
+  if(Token::where('correo', $correoEnviado)
+  ->where('token', $tokenEnviado)
+  ->first()){
 
 
+     $data['contrasena'] = password_hash($data['contrasena'], PASSWORD_DEFAULT);
 
+    $usuario = Usuario::where('correo', $correoEnviado)->first();
+    $usuario->contrasena= $data['contrasena'];
+    $usuario->save();
     
+
+    $tokenABorrar = Token::find($data['correo']);
+    $tokenABorrar->delete();
+
+    return response('<h1>Contraseña cambiada con éxito</h1><p>Puedes cerrar esta ventana</p>', 200)
+    ->header('Content-Type', 'text/html');
+
+
+
+
+  }else{
+    return "Hubo un problema";
+  }
+
+
+
+
 }
 }
