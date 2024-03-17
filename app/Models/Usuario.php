@@ -49,7 +49,6 @@ class Usuario extends Model
 		'fechaNacimiento',
 		'fechaCreacion'
 	];
-
 	public function clubs()
 	{
 		return $this->belongsToMany(Club::class, 'usuarioclub', 'dni', 'id_club');
@@ -170,6 +169,10 @@ class Usuario extends Model
 		return true;
 	}
 
-
+	public function cuantosUsuarios()
+	{
+		$cuantos = Usuario::count();
+		return $cuantos;
+	}
 
 }

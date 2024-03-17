@@ -37,4 +37,10 @@ class Club extends Model
 	{
 		return $this->belongsToMany(Usuario::class, 'usuarioclub', 'id_club', 'dni');
 	}
+
+	public function cuantosClubes()
+	{
+		$cuantos = Club::count();
+		return $cuantos;
+	}
 }

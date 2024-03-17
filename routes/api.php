@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Club;
+use App\Models\Visita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
@@ -15,16 +17,6 @@ use App\Http\Controllers\PHPMailerController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::get('/prueba', function () {
-    return json_encode('Hola mundo1');
-});
-
 
 
 Route::post('/crear-usuario', function (Request $request) {
@@ -77,3 +69,12 @@ Route::post('/dejarClub', function (Request $request) {
     $respuesta = Usuario::dejarClub($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+Route::post('/cuantosClubes', [Club::class, 'cuantosClubes']);
+
+Route::post('/cuantosUsuarios', [Usuario::class, 'cuantosUsuarios']);
+
+Route::post('/nuevaVisita', [Visita::class, 'nuevaVisita']);
+
+Route::post('/cuantasVisitas', [Visita::class, 'cuantasVisitas']);
+
