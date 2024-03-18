@@ -33,8 +33,20 @@ Route::post('/iniciarSesion', function (Request $request) {
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 
+
+
 //Correo de cambio contraseña
 
+Route::post('/enviarCorreoCambioContrasena', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = PHPMailerController::store($data); // Llama a la función del modelo Usuario
+
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+
+
+//Endpoint donde se envia la nueva contrasena introducida por el usuario desde su gmail
 
 Route::post('/cambiarContrasena', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
@@ -45,12 +57,18 @@ Route::post('/cambiarContrasena', function (Request $request) {
 
 
 
+
+
+
 Route::post('/clubesUsuario', function (Request $request) {
     $data = $request['DNI'];
     $respuesta = Usuario::obtenerClubes($data);
 
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+
+
 
 
 

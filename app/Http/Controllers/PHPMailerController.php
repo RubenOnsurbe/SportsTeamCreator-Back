@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\Usuario;
 use App\Models\Token;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 
 class PHPMailerController extends Controller
@@ -21,16 +22,13 @@ class PHPMailerController extends Controller
     public static function store($request)
 {
     
-    /*En la bd, token tiene un evento que hara que a los 30 dias se elimine por si
-     un usuario mete su correo para cambiar la contraseña pero luego no la cambia*/
+   
     $token = Str::random(60); 
     $correoDestinatario = $request['correo'];
 
 
-
-
     $usuario = Usuario::where('correo', $correoDestinatario)->first();
-
+   
 
     if($usuario != null){
 
@@ -97,10 +95,17 @@ class PHPMailerController extends Controller
 
         return response()->json(['message' => 'Correo electrónico enviado correctamente'], 200);
     } catch (Exception $e) {
+        // Registrar el mensaje de error
+        Log::error('Error al enviar el correo electrónico: ' . $e->getMessage());
+    
+        // Devolver una respuesta JSON con el mensaje de error
         return response()->json(['error' => 'No se pudo enviar el correo electrónico'], 500);
     }
 }else return "No existe el correo";
+
 }
+
+
 
 public static function cambiarContrasena($data){
 
