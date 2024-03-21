@@ -1,46 +1,61 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Club
- * 
- * @property int $id_club
+ * @property integer $id_club
  * @property string $nombre
- * @property string $usuarioClub
  * @property string $codigoAcceso
- * 
- * @property Collection|Usuario[] $usuarios
- *
- * @package App\Models
+ * @property string $localizacion
+ * @property string $fechaCreacion
+ * @property Equipo[] $equipos
+ * @property Evento[] $eventos
+ * @property Usuarioclub[] $usuarioclubs
  */
 class Club extends Model
 {
-	protected $table = 'club';
-	protected $primaryKey = 'id_club';
-	public $timestamps = false;
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'club';
 
-	protected $fillable = [
-		'nombre',
-		'usuarioClub',
-		'codigoAcceso'
-	];
+    /**
+     * The primary key for the model.
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'id_club';
 
-	public function usuarios()
-	{
-		return $this->belongsToMany(Usuario::class, 'usuarioclub', 'id_club', 'dni');
-	}
+    /**
+     * @var array
+     */
+    protected $fillable = ['nombre', 'codigoAcceso', 'localizacion', 'fechaCreacion'];
 
-	public function cuantosClubes()
-	{
-		$cuantos = Club::count();
-		return $cuantos;
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function equipos()
+    {
+        return $this->hasMany('App\Models\Equipo', 'id_club', 'id_club');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventos()
+    {
+        return $this->hasMany('App\Models\Evento', 'id_club', 'id_club');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function usuarioclubs()
+    {
+        return $this->hasMany('App\Models\Usuarioclub', 'id_club', 'id_club');
+    }
 }
