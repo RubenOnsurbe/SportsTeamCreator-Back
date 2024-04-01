@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
 use App\Http\Controllers\PHPMailerController;
+use App\Models\Evento;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,5 +114,13 @@ Route::post('/obtenerClubes', function () {
 Route::post('/buscarClub', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Club::where('nombre', 'LIKE', $data['nombre']."%")->paginate(10); // Pagina los resultados de la búsqueda
+    return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
+});
+
+
+Route::post('/obtenerEventosDeUsuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    
+    $respuesta = Evento::obtenerEventosDeUsuario($data['dni']);
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
