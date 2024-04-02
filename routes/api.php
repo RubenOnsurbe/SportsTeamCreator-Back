@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Club;
-use App\Models\Visita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
@@ -90,20 +89,15 @@ Route::post('/dejarClub', function (Request $request) {
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 
-Route::post('/cuantosClubes', [Club::class, 'cuantosClubes']);
 
 Route::post('/cuantosUsuarios', [Usuario::class, 'cuantosUsuarios']);
-
-Route::post('/nuevaVisita', [Visita::class, 'nuevaVisita']);
-
-Route::post('/cuantasVisitas', [Visita::class, 'cuantasVisitas']);
 
 
 
 
 Route::post('/obtenerClubes', function () {
-     
-    $respuesta =  Club::paginate(10);
+
+    $respuesta = Club::paginate(10);
 
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
@@ -113,14 +107,14 @@ Route::post('/obtenerClubes', function () {
 
 Route::post('/buscarClub', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = Club::where('nombre', 'LIKE', $data['nombre']."%")->paginate(10); // Pagina los resultados de la búsqueda
+    $respuesta = Club::where('nombre', 'LIKE', $data['nombre'] . "%")->paginate(10); // Pagina los resultados de la búsqueda
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
 
 
 Route::post('/obtenerEventosDeUsuario', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    
+
     $respuesta = Evento::obtenerEventosDeUsuario($data['dni']);
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
