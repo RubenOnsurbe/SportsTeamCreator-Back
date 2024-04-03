@@ -24,6 +24,8 @@ use App\Models\Club;
  * @property string $contrasena
  * @property Carbon $fechaNacimiento
  * @property Carbon $fechaCreacion
+ * @property string $genero
+
  * 
  * @property Collection|Club[] $clubs
  *
@@ -47,7 +49,8 @@ class Usuario extends Model
 		'correo',
 		'contrasena',
 		'fechaNacimiento',
-		'fechaCreacion'
+		'fechaCreacion',
+		'genero'
 	];
 	public function clubs()
 	{
