@@ -29,7 +29,6 @@ Route::post('/crear-usuario', function (Request $request) {
 Route::post('/iniciarSesion', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Usuario::iniciarSesion($data); // Llama a la función del modelo Usuario
-
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 

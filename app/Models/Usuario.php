@@ -96,6 +96,7 @@ class Usuario extends Model
 		}
 		if (count($respuesta) == 0) {
 			array_push($respuesta, $usuario->dni);
+			session()->put("DNI", $usuario->dni);
 		}
 		return $respuesta;
 		//Si se devuelve un array vacio esque inicio correctamente
