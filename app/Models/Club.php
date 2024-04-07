@@ -59,7 +59,7 @@ class Club extends Model
         return $this->hasMany('App\Models\Usuarioclub', 'id_club', 'id_club');
     }
 
-    public function UnirseClub($data){
+    public function UnirseAClub($data){
 
         $existencias = Club::where('id_club', $data['id_club'])->where('codigoAcceso', $data['codigoAcceso'])->first();
 
