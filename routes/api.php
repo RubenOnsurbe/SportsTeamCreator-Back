@@ -104,10 +104,10 @@ Route::post('/obtenerClubes', function () {
 
 
 
-Route::post('/buscarClub', function (Request $request) {
-    $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = Club::where('nombre', 'LIKE', $data['nombre'] . "%")->paginate(10); // Pagina los resultados de la búsqueda
-    return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
+Route::post('/searchClub', function (Request $request) {
+    $data = $request->all();
+    $response = Club::where('nombre', 'LIKE', $data['nombre'] . "%")->paginate(6);
+    return response()->json($response);
 });
 
 
