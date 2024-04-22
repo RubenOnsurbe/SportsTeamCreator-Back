@@ -85,22 +85,31 @@ class Usuario extends Model
 
 	public static function iniciarSesion($data)
 	{
-		$respuesta = array();
+		$respuesta = array(
+			"contrasena" => "",
+			"correo" => "",
+			"ok" => ""
+ 		);
 		//Usuario con el correo que proporciona el usuario
 		$usuario = Usuario::where('correo', $data['correo'])->first();
 		if ($usuario == null) {
 			//Si el correo no existe, se añade correo como error a la respuesta
-			array_push($respuesta, "correo");
+			$respuesta['correo'] = 'correoIncorrecto';
 		} else {
 
 			//Si la contraseña no corresponde, se añade el error a la respuesta
-			if (password_verify($data['contrasena'], $usuario->contrasena) == false)
-				array_push($respuesta, "contrasena");
+			/*if (password_verify($data['contrasena'], $usuario->contrasena) == false)
+				array_push($respuesta, "contrasena");*/
+			
+			/*Si la contrasena coincide:*/
+			$respuesta['ok'] = 'ok';
 		}
-		if (count($respuesta) == 0) {
+		/*if (count($respuesta) == 0) {
 			array_push($respuesta, $usuario->dni);
 			session()->put("DNI", $usuario->dni);
-		}
+			$respuesta['ok'] = 'ok';
+		}*/
+		$respuesta['contrasena'] = 'contrasenaIncorrecta';
 		return $respuesta;
 		//Si se devuelve un array vacio esque inicio correctamente
 	}
