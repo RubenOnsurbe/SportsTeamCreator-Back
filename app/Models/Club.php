@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Usuarioclub;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -57,5 +57,18 @@ class Club extends Model
     public function usuarioclubs()
     {
         return $this->hasMany('App\Models\Usuarioclub', 'id_club', 'id_club');
+    }
+
+    public function UnirseAClub($data){
+
+        $existencias = Club::where('id_club', $data['id_club'])->where('codigoAcceso', $data['codigoAcceso'])->first();
+
+        if(count($existencias) >= 1){
+           
+            $usuarioClub = new Usuarioclub();
+            $usuarioClub->dni = $data['dni'];
+            $usuarioClub->id_club = $data['id_club'];
+            $usuarioClub->save();
+        }
     }
 }
