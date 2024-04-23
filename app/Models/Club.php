@@ -70,6 +70,5 @@ class Club extends Model
             $usuarioClub->id_club = $data['id_club'];
             $usuarioClub->save();
         }
-        
     }
 }
