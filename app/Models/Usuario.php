@@ -60,7 +60,10 @@ class Usuario extends Model
 
 	public static function crearUsuario($data)
 	{
-		$respuesta = array();
+		$respuesta = array(
+			"dni" => "",
+			"email" => ""
+		);
 		$data['contrasena'] = password_hash($data['contrasena'], PASSWORD_DEFAULT);
 		try {
 			self::insert($data);
@@ -72,11 +75,11 @@ class Usuario extends Model
 
 				//Si dni existe...
 				if (strpos($e->getMessage(), 'PRIMARY') == true)
-					array_push($respuesta, "dni");
+					$respuesta['dni'] = 'dniYaExiste';
 
 				//Si el correo se repite
 				if (strpos($e->getMessage(), 'correo') == true) {
-					array_push($respuesta, "correo");
+					$respuesta['email'] = 'emailUsado';
 				}
 			}
 		}
@@ -90,7 +93,7 @@ class Usuario extends Model
 			"correo" => "",
 			"ok" => "",
 			"dni" => ""
- 		);
+		);
 		//Usuario con el correo que proporciona el usuario
 		$usuario = Usuario::where('correo', $data['correo'])->first();
 		if ($usuario == null) {
@@ -99,17 +102,18 @@ class Usuario extends Model
 		} else {
 
 			//Si la contraseña no corresponde, se añade el error a la respuesta
-			if (password_verify($data['contrasena'], $usuario->contrasena) == false){
-				$respuesta['contrasena'] = 'contrasenaIncorrecta';
-			}else{
-				$respuesta['ok'] = 'ok';
-				$respuesta['dni'] = $usuario['dni'];
-			}
-				
+			/*if (password_verify($data['contrasena'], $usuario->contrasena) == false)
+				array_push($respuesta, "contrasena");*/
 			
+			/*Si la contrasena coincide:*/
+			$respuesta['ok'] = 'ok';
 		}
-		
-		
+		/*if (count($respuesta) == 0) {
+			array_push($respuesta, $usuario->dni);
+			session()->put("DNI", $usuario->dni);
+			$respuesta['ok'] = 'ok';
+		}*/
+		$respuesta['contrasena'] = 'contrasenaIncorrecta';
 		return $respuesta;
 		
 		//Si se devuelve un array vacio esque inicio correctamente

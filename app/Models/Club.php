@@ -72,3 +72,4 @@ class Club extends Model
         }
     }
 }
+
