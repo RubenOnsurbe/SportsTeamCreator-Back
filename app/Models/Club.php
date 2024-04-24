@@ -59,11 +59,15 @@ class Club extends Model
         return $this->hasMany('App\Models\Usuarioclub', 'id_club', 'id_club');
     }
 
-    public function UnirseAClub($data){
+    public static function UnirseAClub($data){
 
-        $existencias = Club::where('id_club', $data['id_club'])->where('codigoAcceso', $data['codigoAcceso'])->first();
+        $existencias = Club::where('id_club', $data['id_club'])
+                   ->where('codigoAcceso', $data['codigoAcceso'])
+                   ->count();
 
-        if(count($existencias) >= 1){
+        $response = array("unirseExito"=>false);
+    
+        if($existencias >= 1){
            
             $usuarioClub = new Usuarioclub();
             $usuarioClub->dni = $data['dni'];
@@ -71,5 +75,6 @@ class Club extends Model
             $usuarioClub->save();
         }
     }
+    
 }
 
