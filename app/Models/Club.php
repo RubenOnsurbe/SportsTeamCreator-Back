@@ -72,7 +72,10 @@ class Club extends Model
             $usuarioClub = new Usuarioclub();
             $usuarioClub->dni = $data['dni'];
             $usuarioClub->id_club = $data['id_club'];
-            $usuarioClub->save();
+            if($usuarioClub->save()){
+                $response['unirseExito']=true;
+            }
+
         }
     }
     
