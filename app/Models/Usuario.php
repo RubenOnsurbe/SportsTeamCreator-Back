@@ -100,25 +100,18 @@ class Usuario extends Model
 			//Si el correo no existe, se añade correo como error a la respuesta
 			$respuesta['correo'] = 'correoIncorrecto';
 		} else {
-
+	
 			//Si la contraseña no corresponde, se añade el error a la respuesta
-			/*if (password_verify($data['contrasena'], $usuario->contrasena) == false)
-				array_push($respuesta, "contrasena");*/
-			
-			/*Si la contrasena coincide:*/
-			$respuesta['ok'] = 'ok';
+			if (password_verify($data['contrasena'], $usuario->contrasena) == false){
+				$respuesta['contrasena'] = 'contrasenaIncorrecta';
+			}else{
+				$respuesta['ok'] = 'ok';
+				$respuesta['dni'] = $usuario['dni'];
+			}
 		}
-		/*if (count($respuesta) == 0) {
-			array_push($respuesta, $usuario->dni);
-			session()->put("DNI", $usuario->dni);
-			$respuesta['ok'] = 'ok';
-		}*/
-		$respuesta['contrasena'] = 'contrasenaIncorrecta';
 		return $respuesta;
-		
+	
 		//Si se devuelve un array vacio esque inicio correctamente
-		
-		
 	}
 
 	public function cuantosUsuarios()
