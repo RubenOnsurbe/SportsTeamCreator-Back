@@ -65,13 +65,9 @@ Route::post('/clubesUsuario', function (Request $request) {
 
 
 
-
-
-
-
 Route::post('/crearClub', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = Usuario::crearClub($data); // Llama a la función del modelo Usuario
+    $respuesta = Club::crearClub($data); // Llama a la función del modelo Usuario
 
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
