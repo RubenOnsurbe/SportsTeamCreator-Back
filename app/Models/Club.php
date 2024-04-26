@@ -17,6 +17,25 @@ use Illuminate\Database\Eloquent\Model;
 class Club extends Model
 {
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s';
+
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    /**
      * The table associated with the model.
      * 
      * @var string
@@ -79,6 +98,29 @@ class Club extends Model
         }
 
         return $response;
+    }
+
+    public static function crearClub($data){
+
+        $club = new self();
+
+        // Asignamos los valores correspondientes
+        $club->nombre = $data['nombre'];
+        $club->codigoAcceso = $data['codigoAcceso'];
+        $club->localizacion = $data['localizacion'];
+
+        if($club->save()){
+
+            $usuarioClub = new Usuarioclub();
+            $usuarioClub->dni = $data['dni'];
+            $usuarioClub->id_club = $club->id_club;
+            $usuarioClub->rolClub = "administrador";
+            $usuarioClub->save();
+            return true;
+
+        }else{
+            return false;
+        }
     }
     
 }

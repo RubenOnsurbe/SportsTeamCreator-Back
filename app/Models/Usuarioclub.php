@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property string $dni
  * @property int $id_club
+ * @property string $rolClub
  * 
  * @property Usuario $usuario
  * @property Club $club
