@@ -110,7 +110,7 @@ class Club extends Model
         if($club->save()){
 
             $usuarioClub = new Usuarioclub();
-            $usuarioClub->dni = $data['dni'];
+            $usuarioClub->dni = $data['dni'];git 
             $usuarioClub->id_club = $club->id_club;
             $usuarioClub->rolClub = "administrador";
             $usuarioClub->save();
