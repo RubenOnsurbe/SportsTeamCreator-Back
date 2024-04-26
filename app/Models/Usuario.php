@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use App\Models\Usuarioclub;
 use App\Models\Club;
+use Illuminate\Support\Str;
+use App\Models\TokenSession;
 
 
 /**
@@ -92,7 +94,8 @@ class Usuario extends Model
 			"contrasena" => "",
 			"correo" => "",
 			"ok" => "",
-			"dni" => ""
+			"dni" => "",
+			"nombre"=>""
 		);
 		//Usuario con el correo que proporciona el usuario
 		$usuario = Usuario::where('correo', $data['correo'])->first();
@@ -107,6 +110,15 @@ class Usuario extends Model
 			}else{
 				$respuesta['ok'] = 'ok';
 				$respuesta['dni'] = $usuario['dni'];
+				$respuesta['token'] = Str::random(60);
+				$respuesta['nombre'] = $usuario["nombre"];
+				//Guardamos el token de usuario en mysql (se borrara pasado un dia):
+				$tokenSession = new TokenSession([
+					'dni' => $respuesta['dni'], 
+					'token_session' => $respuesta['token'], 
+					
+				]);
+				$tokenSession->save();
 			}
 		}
 		return $respuesta;

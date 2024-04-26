@@ -40,4 +40,17 @@ class TokenSession extends Model
 	{
 		return $this->belongsTo(Usuario::class, 'dni');
 	}
+
+
+
+	public static function comprobarToken($data){
+
+		$tokenSession = TokenSession::where('token_session', $data['token_session'])
+                                ->where('dni', $data['dni'])
+                                ->first();
+
+		if($tokenSession){
+			return true;
+		}else return false;
+	}
 }

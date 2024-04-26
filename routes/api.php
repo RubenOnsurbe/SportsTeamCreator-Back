@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
 use App\Http\Controllers\PHPMailerController;
 use App\Models\Evento;
+use App\Models\TokenSession;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,11 @@ Route::post('/iniciarSesion', function (Request $request) {
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 
+Route::post('/comprobarToken', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = TokenSession::comprobarToken($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
 
 
 //Correo de cambio contraseña
