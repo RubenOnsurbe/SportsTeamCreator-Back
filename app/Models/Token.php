@@ -36,4 +36,15 @@ class Token extends Model
 	{
 		return $this->belongsTo(Usuario::class, 'correo', 'correo');
 	}
+
+
+	public static function coincideTokenConCorreo($data){
+
+		$tokenValido = Token::where('correo', $data['correo'])
+                         ->where('token', $data['token'])
+                         ->first();
+
+    // Si se encuentra un token válido, devolver true; de lo contrario, devolver false
+    return $tokenValido ? "true" : "false";
+	}	
 }

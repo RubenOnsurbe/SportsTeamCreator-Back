@@ -11,6 +11,7 @@ use App\Models\Usuario;
 use App\Models\Token;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 
 class PHPMailerController extends Controller
@@ -72,27 +73,24 @@ class PHPMailerController extends Controller
         // Configurar el contenido del correo electrónico
         $mail->isHTML(true);
         $mail->Subject = "Cambio de contrasena";
-        $mail->Body = "
-                        <html>
-                        <head>
-                            <title>Recuperación de contraseña</title>
-                        </head>
-                        <body>
-                            <h1>Recuperación de contraseña</h1>
-                            <p>Por favor, introduce tu nueva contraseña a continuación:</p>
-                            <form action='http://127.0.0.1:8000/api/cambiarContrasena' method='post'>
-                                <input type='password' name='contrasena' placeholder='Nueva contraseña' required>
-                                <input type='hidden' name='token' value='".$token."'>
-                                <input type='hidden' name='correo' value='".$correoDestinatario."'>
-                                <input type='submit' value='Guardar contraseña'>
-                            </form>
-                        </body>
-                        </html>
-                        ";
 
+        
+        
+        
+        $mail->Body = " <html>
+        <head>
+            <title>Recuperación de contraseña</title>
+        </head>
+        <body>
+            <h1>Recuperación de contraseña</h1>
+            <h4>Si no has solicitado un cambio de contraseña ponte en contacto con nuestro equipo técnico</h4>
+            <a href='http://localhost:4200/cambiarContrasena?token=".$token."&correo=".$correoDestinatario."'>Cambiar mi contraseña</a>
+        </body>
+        </html>
+        ";
         // Enviar el correo electrónico
         $mail->send();
-
+                
         return response()->json(['message' => 'Correo electrónico enviado correctamente'], 200);
     } catch (Exception $e) {
         // Registrar el mensaje de error
@@ -141,4 +139,12 @@ public static function cambiarContrasena($data){
 
 
 }
+
+
+public static  function mostrarFormNuevaContrasena(){
+  
+    $response = Http::get('http://localhost:4200/cambiarContrasena');
+    return $response;
+  }
+
 }

@@ -7,6 +7,7 @@ use App\Models\Usuario;
 use App\Http\Controllers\PHPMailerController;
 use App\Models\Evento;
 use App\Models\TokenSession;
+use App\Models\Token;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,14 @@ Route::post('/enviarCorreoCambioContrasena', function (Request $request) {
 Route::post('/cambiarContrasena', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = PHPMailerController::cambiarContrasena($data); // Llama a la función del modelo Usuario
+
+    return $respuesta; // Devuelve la respuesta como JSON
+});
+
+
+Route::post('/comprobarTokenCorreo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Token::coincideTokenConCorreo($data); // Llama a la función del modelo Usuario
 
     return $respuesta; // Devuelve la respuesta como JSON
 });
