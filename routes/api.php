@@ -4,6 +4,7 @@ use App\Models\Club;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
+use App\Models\Usuarioclub;
 use App\Http\Controllers\PHPMailerController;
 use App\Models\Evento;
 use App\Models\TokenSession;
@@ -63,8 +64,8 @@ Route::post('/cambiarContrasena', function (Request $request) {
 
 
 Route::post('/clubesUsuario', function (Request $request) {
-    $data = $request['DNI'];
-    $respuesta = Usuario::obtenerClubes($data);
+    $data = $request->all();
+    $respuesta = Usuarioclub::getClubs($data);
 
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });

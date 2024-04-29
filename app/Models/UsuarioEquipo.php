@@ -43,4 +43,7 @@ class UsuarioEquipo extends Model
     {
         return $this->belongsTo('App\Models\Usuario', 'dni_usuario', 'dni');
     }
+    public static function getEquipos($criteria) {
+        return self::where($criteria)->get(); // Adjust this query as per actual requirements
+    }
 }
