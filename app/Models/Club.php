@@ -80,22 +80,27 @@ class Club extends Model
 
     public static function unirseAClub($data){
 
-        $existencias = Club::where('nombre', $data['nombre'])
-                   ->where('codigoAcceso', $data['codigoAcceso'])
-                   ->count();
+        $tokenSession = new TokenSession();
 
-        $response = array("unirseExito"=>false);
-    
-        if($existencias >= 1){
-           
-            $usuarioClub = new Usuarioclub();
-            $usuarioClub->dni = $data['dni'];
-            $usuarioClub->id_club = $data['id_club'];
-            if($usuarioClub->save()){
-                $response['unirseExito']=true;
+        if($tokenSession->comprobarToken($data)){
+
+            $existencias = Club::where('nombre', $data['nombre'])
+                    ->where('codigoAcceso', $data['codigoAcceso'])
+                    ->first();
+
+            $response = array("unirseExito"=>false);
+        
+            if($existencias !== null){
+            
+                $usuarioClub = new Usuarioclub();
+                $usuarioClub->dni = $data['dni'];
+                $usuarioClub->id_club = $existencias->id_club;
+                if($usuarioClub->save()){
+                    $response['unirseExito']=true;
+                }
+
             }
-
-        }
+    }
 
         return $response;
     }
@@ -112,7 +117,7 @@ class Club extends Model
         if($club->save()){
 
             $usuarioClub = new Usuarioclub();
-            $usuarioClub->dni = $data['dni'];git 
+            $usuarioClub->dni = $data['dni'];
             $usuarioClub->id_club = $club->id_club;
             $usuarioClub->rolClub = "administrador";
             $usuarioClub->save();
