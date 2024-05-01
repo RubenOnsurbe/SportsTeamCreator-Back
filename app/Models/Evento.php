@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Club;
+use App\Models\Usuarioclub;
+use App\Models\Usuarioequipo;
+use App\Models\Usuario;
 
 /**
  * @property integer $id
@@ -50,22 +54,9 @@ class Evento extends Model
 
 
     public static function obtenerEventosDeUsuario($dni) {
-        $eventos = DB::table('evento')
-                    ->leftJoin('usuarioevento', function($join) use ($dni) {
-                        $join->on('evento.id', '=', 'usuarioevento.id_evento')
-                             ->where('usuarioevento.dni', '=', $dni);
-                    })
-                    ->leftJoin('usuarioequipo', function($join) use ($dni) {
-                        $join->on('evento.id_equipo', '=', 'usuarioequipo.id_equipo')
-                             ->where('usuarioequipo.dni_usuario', '=', $dni);
-                    })
-                    ->leftJoin('equipo', 'evento.id_equipo', '=', 'equipo.id_equipo')
-                    ->select('evento.*') // Selecciona todos los campos de la tabla evento
-                    ->where(function($query) {
-                        $query->whereNotNull('usuarioevento.id_evento')
-                              ->orWhereNotNull('usuarioequipo.id_equipo');
-                    })
-                    ->get();
+        $clubes = Usuarioclub::getClubs(['dni' => $dni])->pluck('id_club');
+        $equipos = Usuarioequipo::getEquipos(['dni_usuario' => $dni])->pluck('id_equipo');
+        $eventos = Evento::whereIn('id_club', $clubes)->orWhereIn('id_equipo', $equipos)->get();
     
         return $eventos;
     }

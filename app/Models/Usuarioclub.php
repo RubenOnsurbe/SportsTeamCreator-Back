@@ -39,4 +39,10 @@ class Usuarioclub extends Model
 	{
 		return $this->belongsTo(Club::class, 'id_club');
 	}
+
+	public static function getClubs($data){
+		$id_clubes = Usuarioclub::where('dni', $data['dni'])->pluck('id_club');
+		$clubes = Club::whereIn('id_club', $id_clubes)->get();
+		return $clubes;
+	}
 }
