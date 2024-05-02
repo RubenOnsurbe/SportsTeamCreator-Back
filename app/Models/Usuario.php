@@ -14,7 +14,8 @@ use App\Models\Usuarioclub;
 use App\Models\Club;
 use Illuminate\Support\Str;
 use App\Models\TokenSession;
-
+use App\Models\Token;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Usuario
@@ -132,4 +133,25 @@ class Usuario extends Model
 		return $cuantos;
 	}
 
+	public static function cambiarContrasena($data){
+
+		$correo = $data['correo'];
+		$contrasena = $data['contrasena'];
+		$token = $data['token'];
+
+		$result = DB::select('SELECT usuario.dni
+						   FROM usuario,token 
+						   WHERE usuario.correo = ? AND token.token = ?', [$correo, $token]);
+						   
+		$dni = $result[0]->dni;
+		if($dni){
+			$contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
+			$usuario = Usuario::where('dni', $dni)->first();
+			$usuario->contrasena = $contrasenaHash;
+   			$usuario->save();
+			return json_encode("contrasenaCambiada");
+		}
+
+
+	}
 }

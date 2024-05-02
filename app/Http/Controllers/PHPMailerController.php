@@ -105,46 +105,9 @@ class PHPMailerController extends Controller
 
 
 
-public static function cambiarContrasena($data){
-
-    $correoEnviado = $data['correo'];
-    $tokenEnviado = $data['token'];
-
-  if(Token::where('correo', $correoEnviado)
-  ->where('token', $tokenEnviado)
-  ->first()){
-
-
-     $data['contrasena'] = password_hash($data['contrasena'], PASSWORD_DEFAULT);
-
-    $usuario = Usuario::where('correo', $correoEnviado)->first();
-    $usuario->contrasena= $data['contrasena'];
-    $usuario->save();
-    
-
-    $tokenABorrar = Token::find($data['correo']);
-    $tokenABorrar->delete();
-
-    return response('<h1>Contraseña cambiada con éxito</h1><p>Puedes cerrar esta ventana</p>', 200)
-    ->header('Content-Type', 'text/html');
 
 
 
 
-  }else{
-    return "Hubo un problema";
-  }
-
-
-
-
-}
-
-
-public static  function mostrarFormNuevaContrasena(){
-  
-    $response = Http::get('http://localhost:4200/cambiarContrasena');
-    return $response;
-  }
 
 }

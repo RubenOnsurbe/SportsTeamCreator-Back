@@ -56,7 +56,7 @@ Route::post('/enviarCorreoCambioContrasena', function (Request $request) {
 
 Route::post('/cambiarContrasena', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = PHPMailerController::cambiarContrasena($data); // Llama a la función del modelo Usuario
+    $respuesta = Usuario::cambiarContrasena($data); // Llama a la función del modelo Usuario
 
     return $respuesta; // Devuelve la respuesta como JSON
 });

@@ -45,12 +45,15 @@ class TokenSession extends Model
 
 	public static function comprobarToken($data){
 
-		$tokenSession = TokenSession::where('token_session', $data['token_session'])
+		if(isset($data['token_session']) && isset($data['dni'])){
+			$tokenSession = TokenSession::where('token_session', $data['token_session'])
                                 ->where('dni', $data['dni'])
                                 ->first();
 
 		if($tokenSession){
 			return true;
 		}else return false;
+		}else return false;
+		
 	}
 }
