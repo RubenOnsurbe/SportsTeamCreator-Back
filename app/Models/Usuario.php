@@ -154,4 +154,24 @@ class Usuario extends Model
 
 
 	}
+
+	public static function obtenerInfo($data){
+		if(TokenSession::comprobarToken($data)){
+			$usuario = Usuario::where('dni',$data['dni'])->first();
+
+			return $usuario;
+		}else {
+			return "error";
+		}
+
+	
+	}
+
+	public static function modificarUsuario($data){
+		if(TokenSession::comprobarToken($data['token_session'])){
+			return $data;
+		}else{
+			return $data['token_session'];
+		}
+	}
 }

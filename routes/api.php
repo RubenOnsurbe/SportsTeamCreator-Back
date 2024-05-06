@@ -69,7 +69,12 @@ Route::post('/comprobarTokenCorreo', function (Request $request) {
     return $respuesta; // Devuelve la respuesta como JSON
 });
 
+Route::post('/infoUsuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuario::obtenerInfo($data);// Llama a la función del modelo Usuario
 
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
 
 Route::post('/clubesUsuario', function (Request $request) {
     $data = $request['DNI'];
@@ -130,5 +135,12 @@ Route::post('/obtenerEventosDeUsuario', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
 
     $respuesta = Evento::obtenerEventosDeUsuario($data['dni']);
+    return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
+});
+
+
+Route::post('/modificarUsuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuario::modificarUsuario($data);
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });

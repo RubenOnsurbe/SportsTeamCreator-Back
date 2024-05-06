@@ -53,6 +53,7 @@ class TokenSession extends Model
 		if($tokenSession){
 			return true;
 		}else return false;
+		
 		}else return false;
 		
 	}
