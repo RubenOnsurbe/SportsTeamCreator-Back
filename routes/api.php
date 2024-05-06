@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Club;
+use App\Models\Equipo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
@@ -120,3 +121,10 @@ Route::post('/obtenerEventosDeUsuario', function (Request $request) {
     $respuesta = Evento::obtenerEventosDeUsuario($data['dni']);
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
+
+Route::post('/equiposUsuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Equipo::EquiposUsuario($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+

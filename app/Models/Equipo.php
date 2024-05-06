@@ -50,4 +50,15 @@ class Equipo extends Model
     {
         return $this->hasMany('App\Models\Usuarioequipo', 'id_equipo', 'id_equipo');
     }
+
+    public static function EquiposUsuario($data)
+    {
+        $id_usuario = $data['dni'];
+        $club = $data['id_club'];
+        $equiposTodos = UsuarioEquipo::where('dni_usuario', $id_usuario)->get();
+        $equiposIds = $equiposTodos->pluck('id_equipo');
+        $equipos = Equipo::whereIn('id_equipo', $equiposIds)->where('id_club', $club)->get();
+
+        return $equipos;
+    }
 }
