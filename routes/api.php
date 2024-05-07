@@ -133,4 +133,13 @@ Route::post('/getRoles', function (Request $request) {
     $respuesta = Usuarioclub::getRoles($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
-
+Route::post('/datosClub', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Club::infoClub($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+Route::post('/modificarClub', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Club::modificarClub($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
