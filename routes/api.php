@@ -128,3 +128,9 @@ Route::post('/equiposUsuario', function (Request $request) {
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 
+Route::post('/getRoles', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuarioclub::getRoles($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
