@@ -53,18 +53,30 @@ class Evento extends Model
 
 
 
-    public static function obtenerEventosDeUsuario($dni) {
+    public static function obtenerEventosDeUsuario($dni)
+    {
         $clubes = Usuarioclub::getClubs(['dni' => $dni])->pluck('id_club');
         $equipos = Usuarioequipo::getEquipos(['dni_usuario' => $dni])->pluck('id_equipo');
         $eventos = Evento::whereIn('id_club', $clubes)->orWhereIn('id_equipo', $equipos)->get();
-    
         return $eventos;
     }
-    
-    
-     
-    
-    
+
+    public static function obetenerEventosDeClub($id_club)
+    {
+        $eventos = Evento::where('id_club', $id_club)->get();
+        return $eventos;
+    }
+
+    public static function obtenerEventosDeEquipo($id_equipo)
+    {
+        $eventos = Evento::where('id_equipo', $id_equipo)->get();
+        return $eventos;
+    }
+
+
+
+
+
 
 
     /*CONSULTA EN SQL: 
@@ -76,6 +88,6 @@ LEFT JOIN equipo ON evento.id_equipo = equipo.id_equipo
 WHERE usuarioequipo.dni_usuario ='02795855K' OR usuarioevento.dni='02795855K';
 */
 
-    
+
 
 }

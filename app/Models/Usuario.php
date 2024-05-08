@@ -164,4 +164,10 @@ class Usuario extends Model
 		}
 	}
 
+	public static function nombreJugador($data)
+	{
+		$jugador = Usuario::where('dni', $data['dni'])->first();
+		return $jugador;
+	}
+
 }

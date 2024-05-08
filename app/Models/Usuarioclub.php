@@ -52,4 +52,10 @@ class Usuarioclub extends Model
 		$roles = Usuarioclub::where('dni', $data['dni'])->where('id_club', $data['id_club'])->pluck('rolClub');
 		return $roles;
 	}
+
+	public static function jugadoresClub($data)
+	{
+		$jugadores = Usuarioclub::where('id_club', $data['id_club'])->get();
+		return $jugadores;
+	}
 }

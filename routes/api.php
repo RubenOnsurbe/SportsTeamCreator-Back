@@ -122,6 +122,18 @@ Route::post('/obtenerEventosDeUsuario', function (Request $request) {
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
 
+Route::post('/obtenerEventosDeClub', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Evento::obetenerEventosDeClub($data['id_club']);
+    return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
+});
+
+Route::post('/obtenerEventosDeEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Evento::obtenerEventosDeEquipo($data['id_equipo']);
+    return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
+});
+
 Route::post('/equiposUsuario', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Equipo::EquiposUsuario($data); // Llama a la función del modelo Usuario
@@ -153,5 +165,17 @@ Route::post('/infoUsuario', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Usuario::obtenerInfo($data);// Llama a la función del modelo Usuario
 
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/jugadoresClub', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuarioclub::jugadoresClub($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/nombreJugador', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuario::nombreJugador($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
