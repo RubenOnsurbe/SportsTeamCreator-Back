@@ -143,3 +143,15 @@ Route::post('/modificarClub', function (Request $request) {
     $respuesta = Club::modificarClub($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+Route::post('/modificarUsuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuario::modificarUsuario($data);
+    return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
+});
+Route::post('/infoUsuario', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuario::obtenerInfo($data);// Llama a la función del modelo Usuario
+
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});

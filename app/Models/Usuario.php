@@ -95,7 +95,7 @@ class Usuario extends Model
 			"correo" => "",
 			"ok" => "",
 			"dni" => "",
-			"nombre"=>""
+			"nombre" => ""
 		);
 		//Usuario con el correo que proporciona el usuario
 		$usuario = Usuario::where('correo', $data['correo'])->first();
@@ -103,26 +103,26 @@ class Usuario extends Model
 			//Si el correo no existe, se añade correo como error a la respuesta
 			$respuesta['correo'] = 'correoIncorrecto';
 		} else {
-	
+
 			//Si la contraseña no corresponde, se añade el error a la respuesta
-			if (password_verify($data['contrasena'], $usuario->contrasena) == false){
+			if (password_verify($data['contrasena'], $usuario->contrasena) == false) {
 				$respuesta['contrasena'] = 'contrasenaIncorrecta';
-			}else{
+			} else {
 				$respuesta['ok'] = 'ok';
 				$respuesta['dni'] = $usuario['dni'];
 				$respuesta['token'] = Str::random(60);
 				$respuesta['nombre'] = $usuario["nombre"];
 				//Guardamos el token de usuario en mysql (se borrara pasado un dia):
 				$tokenSession = new TokenSession([
-					'dni' => $respuesta['dni'], 
-					'token_session' => $respuesta['token'], 
-					
+					'dni' => $respuesta['dni'],
+					'token_session' => $respuesta['token'],
+
 				]);
 				$tokenSession->save();
 			}
 		}
 		return $respuesta;
-	
+
 		//Si se devuelve un array vacio esque inicio correctamente
 	}
 
@@ -130,6 +130,28 @@ class Usuario extends Model
 	{
 		$cuantos = Usuario::count();
 		return $cuantos;
+	}
+
+	public static function obtenerInfo($data)
+	{
+		if (TokenSession::comprobarToken($data)) {
+			$usuario = Usuario::where('dni', $data['dni'])->first();
+
+			return $usuario;
+		} else {
+			return "error";
+		}
+
+
+	}
+
+	public static function modificarUsuario($data)
+	{
+		if (TokenSession::comprobarToken($data['token_session'])) {
+			return $data;
+		} else {
+			return $data['token_session'];
+		}
 	}
 
 }
