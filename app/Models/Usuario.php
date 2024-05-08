@@ -147,10 +147,20 @@ class Usuario extends Model
 
 	public static function modificarUsuario($data)
 	{
-		if (TokenSession::comprobarToken($data['token_session'])) {
-			return $data;
+		if (TokenSession::comprobarToken($data)) {
+
+			$usuario = Usuario::where('dni', $data['dni'])->first();
+			$usuario->correo = $data['correo'];
+			$usuario->nombre = $data['nombre'];
+			$usuario->apellidos = $data['apellidos'];
+			try {
+				$usuario->save();
+				return 'ok';
+			} catch (\Exception $e) {
+				return 'correoExiste';
+			}
 		} else {
-			return $data['token_session'];
+			return 'no';
 		}
 	}
 
