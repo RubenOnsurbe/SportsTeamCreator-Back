@@ -61,9 +61,13 @@ class Evento extends Model
         return $eventos;
     }
 
-    public static function obetenerEventosDeClub($id_club)
+    public static function obetenerEventosDeClub($data)
     {
-        $eventos = Evento::where('id_club', $id_club)->get();
+        if ($data['tipo'] === 'todos') {
+            $eventos = Evento::where('id_club', $data['id_club'])->get();
+        } else {
+            $eventos = Evento::where('id_club', $data['id_club'])->where('tipo', $data['tipo'])->get();
+        }
         return $eventos;
     }
 

@@ -124,7 +124,7 @@ Route::post('/obtenerEventosDeUsuario', function (Request $request) {
 
 Route::post('/obtenerEventosDeClub', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = Evento::obetenerEventosDeClub($data['id_club']);
+    $respuesta = Evento::obetenerEventosDeClub($data);
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
 
