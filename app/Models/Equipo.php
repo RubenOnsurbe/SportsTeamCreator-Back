@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuarioequipo;
 
 /**
  * @property integer $id_equipo
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $genero
  * @property string $fechaCreacion
  * @property Club $club
- * @property Usuarioequipo[] $usuarioequipos
  */
 class Equipo extends Model
 {
@@ -98,6 +98,16 @@ class Equipo extends Model
         $equipo->genero = $data['genero'];
         $equipo->fechaCreacion = date('Y-m-d');
         if ($equipo->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function borrarEquipo($data)
+    {
+        $equipo = Equipo::where('id_equipo', $data['id_equipo'])->first();
+        if ($equipo->delete()) {
             return true;
         } else {
             return false;

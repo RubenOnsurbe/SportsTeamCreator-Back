@@ -2,6 +2,7 @@
 
 use App\Models\Club;
 use App\Models\Equipo;
+use App\Models\UsuarioEquipo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Usuario;
@@ -207,5 +208,17 @@ Route::post('/equiposClub', function (Request $request) {
 Route::post('/crearEquipo', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Equipo::crearEquipo($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/unirseEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = UsuarioEquipo::unirseEquipo($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/borrarEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Equipo::borrarEquipo($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });

@@ -58,4 +58,5 @@ class Usuarioclub extends Model
 		$jugadores = Usuarioclub::where('id_club', $data['id_club'])->get();
 		return $jugadores;
 	}
+
 }
