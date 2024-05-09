@@ -147,5 +147,6 @@ class Club extends Model
             return false;
         }
     }
+
 }
 

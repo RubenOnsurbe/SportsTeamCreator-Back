@@ -81,4 +81,26 @@ class Equipo extends Model
             return false;
         }
     }
+
+    public static function equiposClub($data)
+    {
+        $club = $data['id_club'];
+        $equipos = Equipo::where('id_club', $club)->get();
+        return $equipos;
+    }
+
+    public static function crearEquipo($data)
+    {
+        $equipo = new Equipo();
+        $equipo->id_club = $data['id_club'];
+        $equipo->nombre = $data['nombre'];
+        $equipo->categoria = $data['categoria'];
+        $equipo->genero = $data['genero'];
+        $equipo->fechaCreacion = date('Y-m-d');
+        if ($equipo->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
