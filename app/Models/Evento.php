@@ -12,6 +12,8 @@ use App\Models\Usuario;
 /**
  * @property integer $id
  * @property integer $id_club
+ * @property integer $id_equipo
+ * @property string $dni
  * @property string $titulo
  * @property string $descripcion
  * @property string $fechaInicio
@@ -23,6 +25,7 @@ use App\Models\Usuario;
  */
 class Evento extends Model
 {
+    public $timestamps = false;
     /**
      * The table associated with the model.
      * 
@@ -75,6 +78,42 @@ class Evento extends Model
     {
         $eventos = Evento::where('id_equipo', $id_equipo)->get();
         return $eventos;
+    }
+
+    public static function crearEvento($data)
+    {
+        if (isset($data['id_equipo']) && !isset($data['id_club']) && !isset($data['dni'])) {
+            $evento = new Evento();
+            $evento->id_equipo = $data['id_equipo'];
+            $evento->titulo = $data['titulo'];
+            $evento->descripcion = $data['descripcion'];
+            $evento->fechaInicio = $data['fechaInicio'];
+            $evento->fechaFin = $data['fechaFin'];
+            $evento->tipo = $data['tipo'];
+            $evento->ubicacion = $data['ubicacion'];
+            $evento->save();
+            return $evento;
+        } else if (isset($data['id_club']) && !isset($data['id_equipo']) && !isset($data['dni'])) {
+            $evento = new Evento();
+            $evento->id_club = $data['id_club'];
+            $evento->titulo = $data['titulo'];
+            $evento->descripcion = $data['descripcion'];
+            $evento->fechaInicio = $data['fechaInicio'];
+            $evento->fechaFin = $data['fechaFin'];
+            $evento->tipo = $data['tipo'];
+            $evento->ubicacion = $data['ubicacion'];
+            $evento->save();
+            return $evento;
+        } else {
+            $evento = new Evento();
+            $evento->dni = $data['dni'];
+            $evento->titulo = $data['titulo'];
+            $evento->descripcion = $data['descripcion'];
+            $evento->fechaInicio = $data['fechaInicio'];
+            $evento->fechaFin = $data['fechaFin'];
+            $evento->tipo = $data['tipo'];
+            $evento->ubicacion = $data['ubicacion'];
+        }
     }
 
 

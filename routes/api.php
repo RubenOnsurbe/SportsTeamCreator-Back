@@ -191,3 +191,9 @@ Route::post('/modificarEquipo', function (Request $request) {
     $respuesta = Equipo::modificarEquipo($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+Route::post('/crearEvento', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Evento::crearEvento($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
