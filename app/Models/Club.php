@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\Usuarioclub;
+use App\Models\Equipo;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -126,6 +127,13 @@ class Club extends Model
         }else{
             return false;
         }
+    }
+
+    public static function buscarEquipos($idClub){
+
+        return Equipo::where('id_club', $idClub)
+        ->where('genero', $genero)
+        ->get();
     }
     
 }
