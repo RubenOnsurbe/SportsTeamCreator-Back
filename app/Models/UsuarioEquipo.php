@@ -26,7 +26,7 @@ class UsuarioEquipo extends Model
     /**
      * @var array
      */
-    protected $fillable = ['dorsal', 'funcion', 'rol', 'fechaAlta'];
+    protected $fillable = ['funcion', 'fechaAlta', 'dni_usuario', 'id_equipo'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -43,7 +43,23 @@ class UsuarioEquipo extends Model
     {
         return $this->belongsTo('App\Models\Usuario', 'dni_usuario', 'dni');
     }
-    public static function getEquipos($criteria) {
+    public static function getEquipos($criteria)
+    {
         return self::where($criteria)->get(); // Adjust this query as per actual requirements
     }
+    public static function unirseEquipo($data)
+    {
+        $usuarioEquipo = new UsuarioEquipo();
+        $usuarioEquipo->dni_usuario = $data['dni'];
+        $usuarioEquipo->id_equipo = $data['id_equipo'];
+        $usuarioEquipo->funcion = "jugador";
+        $usuarioEquipo->fechaAlta = date('Y-m-d');
+        if ($usuarioEquipo->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
+

@@ -79,25 +79,26 @@ class Club extends Model
         return $this->hasMany('App\Models\Usuarioclub', 'id_club', 'id_club');
     }
 
-    public static function unirseAClub($data){
+    public static function unirseAClub($data)
+    {
 
         $tokenSession = new TokenSession();
 
-        if($tokenSession->comprobarToken($data)){
+        if ($tokenSession->comprobarToken($data)) {
 
             $existencias = Club::where('nombre', $data['nombre'])
                     ->where('codigoAcceso', $data['codigoAcceso'])
                     ->first();
 
-            $response = array("unirseExito"=>false);
+            $response = array("unirseExito" => false);
         
-            if($existencias !== null){
+            if ($existencias !== null) {
             
                 $usuarioClub = new Usuarioclub();
                 $usuarioClub->dni = $data['dni'];
                 $usuarioClub->id_club = $existencias->id_club;
-                if($usuarioClub->save()){
-                    $response['unirseExito']=true;
+                if ($usuarioClub->save()) {
+                    $response['unirseExito'] = true;
                 }
 
             }
@@ -106,7 +107,8 @@ class Club extends Model
         return $response;
     }
 
-    public static function crearClub($data){
+    public static function crearClub($data)
+    {
 
         $club = new self();
 
@@ -115,7 +117,7 @@ class Club extends Model
         $club->codigoAcceso = $data['codigoAcceso'];
         $club->localizacion = $data['localizacion'];
 
-        if($club->save()){
+        if ($club->save()) {
 
             $usuarioClub = new Usuarioclub();
             $usuarioClub->dni = $data['dni'];
@@ -124,10 +126,11 @@ class Club extends Model
             $usuarioClub->save();
             return true;
 
-        }else{
+        } else {
             return false;
         }
     }
+<<<<<<< HEAD
 
     public static function buscarEquipos($idClub){
 
@@ -136,5 +139,25 @@ class Club extends Model
         ->get();
     }
     
+=======
+    public static function infoClub($data)
+    {
+        $club = Club::where('id_club', $data['id_club'])->first();
+        return $club;
+    }
+    public static function modificarClub($data)
+    {
+        $club = Club::where('id_club', $data['id_club'])->first();
+        $club->nombre = $data['nombre'];
+        $club->localizacion = $data['localizacion'];
+        $club->codigoAcceso = $data['codigoAcceso'];
+        if ($club->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+>>>>>>> a76df96ffd54b64cfa6279cab24fa404de179c34
 }
 

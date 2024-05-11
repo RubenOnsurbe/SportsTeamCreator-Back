@@ -40,9 +40,23 @@ class Usuarioclub extends Model
 		return $this->belongsTo(Club::class, 'id_club');
 	}
 
-	public static function getClubs($data){
+	public static function getClubs($data)
+	{
 		$id_clubes = Usuarioclub::where('dni', $data['dni'])->pluck('id_club');
 		$clubes = Club::whereIn('id_club', $id_clubes)->get();
 		return $clubes;
 	}
+
+	public static function getRoles($data)
+	{
+		$roles = Usuarioclub::where('dni', $data['dni'])->where('id_club', $data['id_club'])->pluck('rolClub');
+		return $roles;
+	}
+
+	public static function jugadoresClub($data)
+	{
+		$jugadores = Usuarioclub::where('id_club', $data['id_club'])->get();
+		return $jugadores;
+	}
+
 }
