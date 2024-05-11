@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Usuarioclub;
 use App\Models\Equipo;
 use Illuminate\Database\Eloquent\Model;
@@ -87,13 +88,13 @@ class Club extends Model
         if ($tokenSession->comprobarToken($data)) {
 
             $existencias = Club::where('nombre', $data['nombre'])
-                    ->where('codigoAcceso', $data['codigoAcceso'])
-                    ->first();
+                ->where('codigoAcceso', $data['codigoAcceso'])
+                ->first();
 
             $response = array("unirseExito" => false);
-        
+
             if ($existencias !== null) {
-            
+
                 $usuarioClub = new Usuarioclub();
                 $usuarioClub->dni = $data['dni'];
                 $usuarioClub->id_club = $existencias->id_club;
@@ -102,7 +103,7 @@ class Club extends Model
                 }
 
             }
-    }
+        }
 
         return $response;
     }
@@ -130,7 +131,6 @@ class Club extends Model
             return false;
         }
     }
-<<<<<<< HEAD
 
     public static function buscarEquipos($idClub){
 
@@ -139,7 +139,6 @@ class Club extends Model
         ->get();
     }
     
-=======
     public static function infoClub($data)
     {
         $club = Club::where('id_club', $data['id_club'])->first();
@@ -158,6 +157,5 @@ class Club extends Model
         }
     }
 
->>>>>>> a76df96ffd54b64cfa6279cab24fa404de179c34
 }
 
