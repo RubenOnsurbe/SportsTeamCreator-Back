@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Usuarioclub;
+use App\Models\Equipo;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -130,6 +131,14 @@ class Club extends Model
             return false;
         }
     }
+
+    public static function buscarEquipos($idClub){
+
+        return Equipo::where('id_club', $idClub)
+        ->where('genero', $genero)
+        ->get();
+    }
+    
     public static function infoClub($data)
     {
         $club = Club::where('id_club', $data['id_club'])->first();
