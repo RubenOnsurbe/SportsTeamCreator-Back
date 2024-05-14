@@ -27,6 +27,7 @@ use App\Models\TokenSession;
  * @property Carbon $fechaNacimiento
  * @property Carbon $fechaCreacion
  * @property string $genero
+ * @property string $imagen
 
  * 
  * @property Collection|Club[] $clubs
@@ -52,7 +53,8 @@ class Usuario extends Model
 		'contrasena',
 		'fechaNacimiento',
 		'fechaCreacion',
-		'genero'
+		'genero',
+		'imagen'
 	];
 	public function clubs()
 	{
@@ -62,19 +64,32 @@ class Usuario extends Model
 
 	public static function crearUsuario($data)
 	{
-		$usuario = new Usuario();
+		// Verifica que todas las claves requeridas estén presentes en el array $data
+		$requiredKeys = ['dni', 'apellidos', 'nombre', 'correo', 'contrasena', 'imagen', 'fechaNacimiento'];
 
+		foreach ($requiredKeys as $key) {
+			if (!array_key_exists($key, $data)) {
+				return "Error: faltan datos requeridos ($key)";
+			}
+		}
+
+		$usuario = new Usuario();
 		$usuario->dni = $data['dni'];
 		$usuario->apellidos = $data['apellidos'];
 		$usuario->nombre = $data['nombre'];
 		$usuario->correo = $data['correo'];
 		$usuario->contrasena = password_hash($data['contrasena'], PASSWORD_DEFAULT);
 		$usuario->imagen = $data['imagen'];
-		$usuario->fechaNacimiento = $data['fecha'];
-		$usuario->save();
-		return "Ok";
+		$usuario->fechaNacimiento = $data['fechaNacimiento'];
+
+		if ($usuario->save()) {
+			return "Ok";
+		} else {
+			return "Error";
+		}
 	}
-	
+
+
 
 	public static function iniciarSesion($data)
 	{
@@ -138,9 +153,14 @@ class Usuario extends Model
 		if (TokenSession::comprobarToken($data)) {
 
 			$usuario = Usuario::where('dni', $data['dni'])->first();
-			$usuario->correo = $data['correo'];
+			if ($usuario->correo === $data['correo']) {
+
+			} else {
+				$usuario->correo = $data['correo'];
+			}
 			$usuario->nombre = $data['nombre'];
 			$usuario->apellidos = $data['apellidos'];
+			$usuario->imagen = $data['imagen'];
 			try {
 				$usuario->save();
 				return 'ok';
