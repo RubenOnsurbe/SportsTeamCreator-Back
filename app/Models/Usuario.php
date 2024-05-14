@@ -62,31 +62,19 @@ class Usuario extends Model
 
 	public static function crearUsuario($data)
 	{
-		$respuesta = array(
-			"dni" => "",
-			"email" => ""
-		);
-		$data['contrasena'] = password_hash($data['contrasena'], PASSWORD_DEFAULT);
-		try {
-			self::insert($data);
-		} catch (QueryException $e) {
-			//Si no se crea usuario...
-			if ($e->getCode() === '23000') {
-				//integrity constraint violation 
+		$usuario = new Usuario();
 
-
-				//Si dni existe...
-				if (strpos($e->getMessage(), 'PRIMARY') == true)
-					$respuesta['dni'] = 'dniYaExiste';
-
-				//Si el correo se repite
-				if (strpos($e->getMessage(), 'correo') == true) {
-					$respuesta['email'] = 'emailUsado';
-				}
-			}
-		}
-		return $respuesta;
+		$usuario->dni = $data['dni'];
+		$usuario->apellidos = $data['apellidos'];
+		$usuario->nombre = $data['nombre'];
+		$usuario->correo = $data['correo'];
+		$usuario->contrasena = password_hash($data['contrasena'], PASSWORD_DEFAULT);
+		$usuario->imagen = $data['imagen'];
+		$usuario->fechaNacimiento = $data['fecha'];
+		$usuario->save();
+		return "Ok";
 	}
+	
 
 	public static function iniciarSesion($data)
 	{
