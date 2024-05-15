@@ -64,16 +64,29 @@ class Usuario extends Model
 
 	public static function crearUsuario($data)
 	{
+		// Verifica que todas las claves requeridas estén presentes en el array $data
+		$requiredKeys = ['dni', 'apellidos', 'nombre', 'correo', 'contrasena', 'imagen', 'fechaNacimiento'];
+
+		foreach ($requiredKeys as $key) {
+			if (!array_key_exists($key, $data)) {
+				return "Error: faltan datos requeridos ($key)";
+			}
+		}
+
 		$usuario = new Usuario();
-        $usuario->dni = $data['dni'];
-        $usuario->apellidos = $data['apellidos'];
-        $usuario->nombre = $data['nombre'];
-        $usuario->correo = $data['correo'];
-        $usuario->contrasena = password_hash($data['contrasena'], PASSWORD_DEFAULT);
-        $usuario->imagen = $data['imagen'];
-        $usuario->fechaNacimiento = $data['fechaNacimiento'];
-        $usuario->save();
-        return true;
+		$usuario->dni = $data['dni'];
+		$usuario->apellidos = $data['apellidos'];
+		$usuario->nombre = $data['nombre'];
+		$usuario->correo = $data['correo'];
+		$usuario->contrasena = password_hash($data['contrasena'], PASSWORD_DEFAULT);
+		$usuario->imagen = $data['imagen'];
+		$usuario->fechaNacimiento = $data['fechaNacimiento'];
+
+		if ($usuario->save()) {
+			return "Ok";
+		} else {
+			return "Error";
+		}
 	}
 
 
@@ -147,7 +160,10 @@ class Usuario extends Model
 			}
 			$usuario->nombre = $data['nombre'];
 			$usuario->apellidos = $data['apellidos'];
-			$usuario->imagen = $data['imagen'];
+			if ($data['imagen'] != null) {
+				$usuario->imagen = $data['imagen'];
+			}
+
 			try {
 				$usuario->save();
 				return 'ok';
