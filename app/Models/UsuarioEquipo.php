@@ -22,7 +22,7 @@ class UsuarioEquipo extends Model
      * @var string
      */
     protected $table = 'usuarioequipo';
-
+    public $timestamps = false;
     /**
      * @var array
      */
@@ -50,15 +50,12 @@ class UsuarioEquipo extends Model
     public static function unirseEquipo($data)
     {
         $usuarioEquipo = new UsuarioEquipo();
-        $usuarioEquipo->dni_usuario = $data['dni'];
+        $usuarioEquipo->dni_usuario = $data['dni_usuario'];
         $usuarioEquipo->id_equipo = $data['id_equipo'];
         $usuarioEquipo->funcion = "jugador";
         $usuarioEquipo->fechaAlta = date('Y-m-d');
-        if ($usuarioEquipo->save()) {
-            return true;
-        } else {
-            return false;
-        }
+        $usuarioEquipo->save();
+        return true;  
     }
 
 }

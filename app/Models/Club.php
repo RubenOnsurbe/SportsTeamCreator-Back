@@ -98,6 +98,7 @@ class Club extends Model
                 $usuarioClub = new Usuarioclub();
                 $usuarioClub->dni = $data['dni'];
                 $usuarioClub->id_club = $existencias->id_club;
+                $usuarioClub->rolClub = 'plebeyo';
                 if ($usuarioClub->save()) {
                     $response['unirseExito'] = true;
                 }
