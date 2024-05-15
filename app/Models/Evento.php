@@ -114,6 +114,18 @@ class Evento extends Model
             $evento->tipo = $data['tipo'];
             $evento->ubicacion = $data['ubicacion'];
         }
+
+    }
+
+
+    public static function borrarEvento($data)
+    {
+        $evento = Evento::where('id', $data['idEvento'])->first();
+        if ($evento->delete()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

@@ -222,3 +222,21 @@ Route::post('/borrarEquipo', function (Request $request) {
     $respuesta = Equipo::borrarEquipo($data); // Llama a la función del modelo Usuario
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+Route::post('/equipoPorId', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Equipo::equipoPorId($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/editarEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Equipo::editarEquipo($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/borrarEvento', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Evento::borrarEvento($data); // Llama a la función del modelo Evento
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});

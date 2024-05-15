@@ -113,4 +113,24 @@ class Equipo extends Model
             return false;
         }
     }
+
+    public static function equipoPorId($data)
+    {
+        $equipo = Equipo::where('id_equipo', $data['id_equipo'])->first();
+        return $equipo;
+    }
+
+    public static function editarEquipo($data)
+    {
+        $equipo = Equipo::where('id_equipo', $data['id_equipo'])->first();
+        $equipo->nombre = $data['nombre'];
+        $equipo->categoria = $data['categoria'];
+        $equipo->genero = $data['genero'];
+        if ($equipo->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
