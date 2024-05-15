@@ -59,4 +59,14 @@ class Usuarioclub extends Model
 		return $jugadores;
 	}
 
+	public static function comprobarUsuarioPerteneceClub($data){
+
+		$resultado = Usuarioclub::where('dni', $data['dni'])
+                     ->where('id_club', $data['id_club'])
+                     ->first();
+
+		if($resultado) return $resultado['nombre'];
+		else return false;
+	}
+
 }

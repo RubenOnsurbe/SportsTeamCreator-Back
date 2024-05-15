@@ -11,6 +11,7 @@ use App\Http\Controllers\PHPMailerController;
 use App\Models\Evento;
 use App\Models\TokenSession;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -232,6 +233,12 @@ Route::post('/equipoPorId', function (Request $request) {
 Route::post('/editarEquipo', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Equipo::editarEquipo($data); // Llama a la función del modelo Usuario
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/comprobarUsuarioPerteneceClub', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Usuarioclub::comprobarUsuarioPerteneceClub($data);
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
 
