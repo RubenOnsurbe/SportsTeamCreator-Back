@@ -132,7 +132,7 @@ Route::post('/obtenerEventosDeClub', function (Request $request) {
 
 Route::post('/obtenerEventosDeEquipo', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
-    $respuesta = Evento::obtenerEventosDeEquipo($data['id_equipo']);
+    $respuesta = Evento::obtenerEventosDeEquipo($data);
     return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
 });
 
@@ -245,5 +245,17 @@ Route::post('/comprobarUsuarioPerteneceClub', function (Request $request) {
 Route::post('/borrarEvento', function (Request $request) {
     $data = $request->all(); // Obtén los datos de la solicitud
     $respuesta = Evento::borrarEvento($data); // Llama a la función del modelo Evento
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/jugadoresEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = UsuarioEquipo::jugadoresEquipo($data); // Llama a la función del modelo UsuarioEquipo
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});
+
+Route::post('/expulsarJugadorEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = UsuarioEquipo::expulsarJugadorEquipo($data); // Llama a la función del modelo UsuarioEquipo
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });

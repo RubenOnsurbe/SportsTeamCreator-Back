@@ -74,9 +74,13 @@ class Evento extends Model
         return $eventos;
     }
 
-    public static function obtenerEventosDeEquipo($id_equipo)
+    public static function obtenerEventosDeEquipo($data)
     {
-        $eventos = Evento::where('id_equipo', $id_equipo)->get();
+        if ($data['tipo'] === 'todos') {
+            $eventos = Evento::where('id_equipo', $data['id_equipo'])->get();
+        } else {
+            $eventos = Evento::where('id_equipo', $data['id_equipo'])->where('tipo', $data['tipo'])->get();
+        }
         return $eventos;
     }
 

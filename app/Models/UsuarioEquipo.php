@@ -55,8 +55,17 @@ class UsuarioEquipo extends Model
         $usuarioEquipo->funcion = "jugador";
         $usuarioEquipo->fechaAlta = date('Y-m-d');
         $usuarioEquipo->save();
-        return true;  
+        return true;
     }
-
+    public static function jugadoresEquipo($data)
+    {
+        $jugadores = UsuarioEquipo::where('id_equipo', $data['id_equipo'])->get();
+        return $jugadores;
+    }
+    public static function expulsarJugadorEquipo($data)
+    {
+        UsuarioEquipo::where('dni_usuario', $data['dni_usuario'])->where('id_equipo', $data['id_equipo'])->delete();
+        return true;
+    }
 }
 
