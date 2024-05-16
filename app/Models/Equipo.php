@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Usuarioequipo;
+use App\Models\UsuarioEquipo;
 
 /**
  * @property integer $id_equipo
@@ -106,6 +106,11 @@ class Equipo extends Model
 
     public static function borrarEquipo($data)
     {
+        print_r($data);
+        $usuariosEquipo = UsuarioEquipo::where('id_equipo', $data['id_equipo'])->get();
+        foreach ($usuariosEquipo as $usuarioEquipo) {
+            $usuarioEquipo->delete();
+        }
         $equipo = Equipo::where('id_equipo', $data['id_equipo'])->first();
         if ($equipo->delete()) {
             return true;
