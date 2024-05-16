@@ -259,3 +259,9 @@ Route::post('/expulsarJugadorEquipo', function (Request $request) {
     $respuesta = UsuarioEquipo::expulsarJugadorEquipo($data); // Llama a la función del modelo UsuarioEquipo
     return response()->json($respuesta); // Devuelve la respuesta como JSON
 });
+
+Route::post('/infoEquipo', function (Request $request) {
+    $data = $request->all(); // Obtén los datos de la solicitud
+    $respuesta = Equipo::infoEquipo($data); // Llama a la función del modelo Equipo
+    return response()->json($respuesta); // Devuelve la respuesta como JSON
+});

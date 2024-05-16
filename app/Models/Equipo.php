@@ -133,4 +133,10 @@ class Equipo extends Model
         }
     }
 
+    public static function infoEquipo($data)
+    {
+        $equipo = Equipo::where('id_equipo', $data['id_equipo'])->first();
+        return $equipo;
+    }
+
 }
