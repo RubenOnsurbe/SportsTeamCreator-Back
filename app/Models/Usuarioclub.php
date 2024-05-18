@@ -7,7 +7,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class Usuarioclub
  * 
@@ -25,7 +25,7 @@ class Usuarioclub extends Model
 	protected $table = 'usuarioclub';
 	public $incrementing = false;
 	public $timestamps = false;
-
+	
 	protected $casts = [
 		'id_club' => 'int'
 	];
@@ -69,4 +69,15 @@ class Usuarioclub extends Model
 		else return false;
 	}
 
+
+	public static function cambiarRol($data)
+{
+    // Ejecutar la consulta SQL para actualizar el rolClub
+    DB::table('usuarioclub')
+        ->where('dni', $data['dni'])
+        ->where('id_club', $data['id_club'])
+        ->update(['rolClub' => $data['rolClub']]);
+		return "Ok";
+}
+	
 }
