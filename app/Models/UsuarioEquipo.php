@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -66,6 +67,27 @@ class UsuarioEquipo extends Model
     {
         UsuarioEquipo::where('dni_usuario', $data['dni_usuario'])->where('id_equipo', $data['id_equipo'])->delete();
         return true;
+    }
+    public static function cambiarRolEquipo($data)
+    {
+        DB::table('usuarioEquipo')
+            ->where('dni_usuario', $data['dni'])
+            ->where('id_equipo', $data['id_equipo'])
+            ->update(['rol' => $data['rol']]);
+        return "Ok";
+    }
+    public static function cambiarDorsalEquipo($data)
+    {
+        UsuarioEquipo::where('dni_usuario', $data['dni_usuario'])->where('id_equipo', $data['id_equipo'])->update(['dorsal' => $data['dorsal']]);
+        return true;
+    }
+    public static function cambiarFuncionEquipo($data)
+    {
+        DB::table('usuarioEquipo')
+            ->where('dni_usuario', $data['dni_usuario'])
+            ->where('id_equipo', $data['id_equipo'])
+            ->update(['funcion' => $data['funcion']]);
+        return "Ok";
     }
 }
 

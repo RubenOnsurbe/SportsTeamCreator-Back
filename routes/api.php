@@ -257,4 +257,20 @@ Route::middleware('throttle:1000,1')->group(function () {
         $respuesta = Usuarioclub::expulsarUsuario($datos); // Llamar al método expulsarUsuario del modelo Usuarioclub
         return response()->json($respuesta); // Devolver la respuesta como JSON
     });
+
+    Route::post('/cambiarRolEquipo', function (Request $request) {
+        $datos = $request->all(); // Obtener todos los datos de la solicitud
+        $respuesta = UsuarioEquipo::cambiarRolEquipo($datos); // Llamar al método cambiarRolEquipo del modelo UsuarioEquipo
+        return response()->json($respuesta); // Devolver la respuesta como JSON
+    });
+    Route::post('/cambiarDorsalEquipo', function (Request $request) {
+        $datos = $request->all(); // Obtener todos los datos de la solicitud
+        $respuesta = UsuarioEquipo::cambiarDorsalEquipo($datos); // Llamar al método cambiarDorsalEquipo del modelo UsuarioEquipo
+        return response()->json($respuesta); // Devolver la respuesta como JSON
+    });
+    Route::post('/cambiarFuncionEquipo', function (Request $request) {
+        $datos = $request->all(); // Obtener todos los datos de la solicitud
+        $respuesta = UsuarioEquipo::cambiarFuncionEquipo($datos); // Llamar al método cambiarFuncionEquipo del modelo UsuarioEquipo
+        return response()->json($respuesta); // Devolver la respuesta como JSON
+    });
 });
