@@ -100,7 +100,7 @@ Route::middleware('throttle:1000,1')->group(function () {
     Route::post('/obtenerEventosDeUsuario', function (Request $request) {
         $data = $request->all(); // Obtén los datos de la solicitud
 
-        $respuesta = Evento::obtenerEventosDeUsuario($data['dni']);
+        $respuesta = Evento::obtenerEventosDeUsuario($data);
         return response()->json($respuesta); // Devuelve la respuesta paginada como JSON
     });
 

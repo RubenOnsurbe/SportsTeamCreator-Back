@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use App\Models\Club;
 use App\Models\Usuarioclub;
 use App\Models\Usuarioequipo;
@@ -56,11 +55,13 @@ class Evento extends Model
 
 
 
-    public static function obtenerEventosDeUsuario($dni)
+    public static function obtenerEventosDeUsuario($data)
     {
-        $clubes = Usuarioclub::getClubs(['dni' => $dni])->pluck('id_club');
-        $equipos = Usuarioequipo::getEquipos(['dni_usuario' => $dni])->pluck('id_equipo');
-        $eventos = Evento::whereIn('id_club', $clubes)->orWhereIn('id_equipo', $equipos)->get();
+        if ($data['tipo'] === 'todos') {
+            $eventos = Evento::where('dni', $data['dni'])->get();
+        } else {
+            $eventos = Evento::where('dni', $data['dni'])->where('tipo', $data['tipo'])->get();
+        }
         return $eventos;
     }
 
@@ -108,7 +109,7 @@ class Evento extends Model
             $evento->ubicacion = $data['ubicacion'];
             $evento->save();
             return $evento;
-        } else {
+        } else if (isset($data['dni']) && !isset($data['id_club']) && !isset($data['id_equipo'])) {
             $evento = new Evento();
             $evento->dni = $data['dni'];
             $evento->titulo = $data['titulo'];
@@ -117,6 +118,7 @@ class Evento extends Model
             $evento->fechaFin = $data['fechaFin'];
             $evento->tipo = $data['tipo'];
             $evento->ubicacion = $data['ubicacion'];
+            $evento->save();
         }
 
     }
