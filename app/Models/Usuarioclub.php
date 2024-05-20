@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+
 /**
  * Class Usuarioclub
  * 
@@ -25,7 +26,7 @@ class Usuarioclub extends Model
 	protected $table = 'usuarioclub';
 	public $incrementing = false;
 	public $timestamps = false;
-	
+
 	protected $casts = [
 		'id_club' => 'int'
 	];
@@ -59,25 +60,36 @@ class Usuarioclub extends Model
 		return $jugadores;
 	}
 
-	public static function comprobarUsuarioPerteneceClub($data){
+	public static function comprobarUsuarioPerteneceClub($data)
+	{
 
 		$resultado = Usuarioclub::where('dni', $data['dni'])
-                     ->where('id_club', $data['id_club'])
-                     ->first();
+			->where('id_club', $data['id_club'])
+			->first();
 
-		if($resultado) return $resultado['nombre'];
-		else return false;
+		if ($resultado)
+			return $resultado['nombre'];
+		else
+			return false;
 	}
 
 
 	public static function cambiarRol($data)
-{
-    // Ejecutar la consulta SQL para actualizar el rolClub
-    DB::table('usuarioclub')
-        ->where('dni', $data['dni'])
-        ->where('id_club', $data['id_club'])
-        ->update(['rolClub' => $data['rolClub']]);
+	{
+		// Ejecutar la consulta SQL para actualizar el rolClub
+		DB::table('usuarioclub')
+			->where('dni', $data['dni'])
+			->where('id_club', $data['id_club'])
+			->update(['rolClub' => $data['rolClub']]);
 		return "Ok";
-}
-	
+	}
+	public static function expulsarUsuario($data)
+	{
+		// Ejecutar la consulta SQL para eliminar el usuario del club
+		DB::table('usuarioclub')
+			->where('dni', $data['dni'])
+			->where('id_club', $data['id_club'])
+			->delete();
+		return "Ok";
+	}
 }

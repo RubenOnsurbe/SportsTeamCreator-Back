@@ -252,4 +252,9 @@ Route::middleware('throttle:1000,1')->group(function () {
         $respuesta = Usuarioclub::cambiarRol($datos); // Llamar al método cambiarRol del modelo Usuarioclub
         return response()->json($respuesta); // Devolver la respuesta como JSON
     });
+    Route::post('/expulsarUsuario', function (Request $request) {
+        $datos = $request->all(); // Obtener todos los datos de la solicitud
+        $respuesta = Usuarioclub::expulsarUsuario($datos); // Llamar al método expulsarUsuario del modelo Usuarioclub
+        return response()->json($respuesta); // Devolver la respuesta como JSON
+    });
 });
