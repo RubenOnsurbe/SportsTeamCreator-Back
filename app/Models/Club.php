@@ -133,13 +133,14 @@ class Club extends Model
         }
     }
 
-    public static function buscarEquipos($idClub){
+    public static function buscarEquipos($idClub)
+    {
 
         return Equipo::where('id_club', $idClub)
-        ->where('genero', $genero)
-        ->get();
+            ->where('genero', $genero)
+            ->get();
     }
-    
+
     public static function infoClub($data)
     {
         $club = Club::where('id_club', $data['id_club'])->first();
@@ -152,6 +153,16 @@ class Club extends Model
         $club->localizacion = $data['localizacion'];
         $club->codigoAcceso = $data['codigoAcceso'];
         if ($club->save()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function borrarClub($data)
+    {
+        $club = Club::where('id_club', $data['id_club'])->first();
+        if ($club->delete()) {
             return true;
         } else {
             return false;

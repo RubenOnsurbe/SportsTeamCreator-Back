@@ -273,4 +273,9 @@ Route::middleware('throttle:1000,1')->group(function () {
         $respuesta = UsuarioEquipo::cambiarFuncionEquipo($datos); // Llamar al método cambiarFuncionEquipo del modelo UsuarioEquipo
         return response()->json($respuesta); // Devolver la respuesta como JSON
     });
+    Route::post('/borrarClub', function (Request $request) {
+        $datos = $request->all(); // Obtener todos los datos de la solicitud
+        $respuesta = Club::borrarClub($datos); // Llamar al método borrarClub del modelo Club
+        return response()->json($respuesta); // Devolver la respuesta como JSON
+    });
 });
