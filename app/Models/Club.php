@@ -161,13 +161,35 @@ class Club extends Model
 
     public static function borrarClub($data)
     {
-        $club = Club::where('id_club', $data['id_club'])->first();
-        if ($club->delete()) {
-            return true;
-        } else {
-            return false;
+        $usuarioClub = Usuarioclub::where('id_club', $data['id_club'])->get();
+
+        if ($usuarioClub->isNotEmpty()) {
+            foreach ($usuarioClub as $uc) {
+                if (!$uc->delete()) {
+                    return false;
+                }
+            }
         }
+
+        $equiposClub = Equipo::where('id_club', $data['id_club'])->get();
+
+        if ($equiposClub->isNotEmpty()) {
+            foreach ($equiposClub as $equipo) {
+                if (!$equipo->delete()) {
+                    return false;
+                }
+            }
+        }
+
+        $club = Club::where('id_club', $data['id_club'])->first();
+
+        if ($club) {
+            return $club->delete();
+        }
+
+        return false;
     }
+
 
 }
 
