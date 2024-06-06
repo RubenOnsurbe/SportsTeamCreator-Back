@@ -161,7 +161,7 @@ class Club extends Model
 
     public static function borrarClub($data)
     {
-        $usuarioClub = Usuarioclub::where('id_club', $data['id_club'])->get();
+         $usuarioClub = Usuarioclub::where('id_club', $data['id_club'])->get();
 
         if ($usuarioClub->isNotEmpty()) {
             foreach ($usuarioClub as $uc) {
@@ -170,6 +170,7 @@ class Club extends Model
                 }
             }
         }
+        return true;
 
         $equiposClub = Equipo::where('id_club', $data['id_club'])->get();
 
@@ -187,7 +188,9 @@ class Club extends Model
             return $club->delete();
         }
 
-        return false;
+        return false; 
+
+        
     }
 
 

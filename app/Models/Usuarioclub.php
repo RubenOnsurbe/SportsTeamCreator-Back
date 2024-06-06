@@ -26,7 +26,7 @@ class Usuarioclub extends Model
 	protected $table = 'usuarioclub';
 	public $incrementing = false;
 	public $timestamps = false;
-
+	protected $primaryKey = 'id_club';
 	protected $casts = [
 		'id_club' => 'int'
 	];
