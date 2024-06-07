@@ -98,10 +98,22 @@ class Equipo extends Model
         $equipo->genero = $data['genero'];
         $equipo->fechaCreacion = date('Y-m-d');
         if ($equipo->save()) {
-            return true;
+            $usuarioEquipo = new UsuarioEquipo();
+            $usuarioEquipo->dni_usuario = $data['dni_usuario'];
+            $usuarioEquipo->id_equipo = $equipo->id_equipo;
+            $usuarioEquipo->funcion = "jugador";
+            $usuarioEquipo->rol = "Admin";
+            $usuarioEquipo->dorsal = 0;
+            if ($usuarioEquipo->save()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+
+
     }
 
     public static function borrarEquipo($data)

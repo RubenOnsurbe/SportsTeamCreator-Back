@@ -54,6 +54,8 @@ class UsuarioEquipo extends Model
         $usuarioEquipo->dni_usuario = $data['dni_usuario'];
         $usuarioEquipo->id_equipo = $data['id_equipo'];
         $usuarioEquipo->funcion = "jugador";
+        $usuarioEquipo->rol = "Usuario";
+        $usuarioEquipo->dorsal = 0;
         $usuarioEquipo->fechaAlta = date('Y-m-d');
         $usuarioEquipo->save();
         return true;
